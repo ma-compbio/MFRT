@@ -2,17 +2,25 @@
 MFRT - Multi-fraction replication timing pipeline
 ## Requirements
 * FASTX-Toolkit (http://hannonlab.cshl.edu/fastx_toolkit/commandline.html)
-* bowtie2 (http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
+* BWA (http://bio-bwa.sourceforge.net/)
 * samtools (http://samtools.sourceforge.net/)
 * bedtools (http://bedtools.readthedocs.io/en/latest/)
+## Input files
+* Raw fastq files (fastq.gz)
+* Multi-fraction information
+```
+input_info.txt:
+fraction_1.fastq.gz fraction_1 adapter_1-1 adapter_1-2
+fraction_2.fastq.gz fraction_2 adapter_2-1 adapter_2-2
+......
+fraction_k.fastq.gz fraction_k adapter_k-1 adapter_k-2
+```
+* BWA index for reference genome
+* Reference genome size
+
+
 ## Usage
 ```shell
-# Map reads to reference genome. My_dir should contain raw fastq data, with each fraction in an individual folder.
-mapping.sh my_dir hg38_index
-# Make bed file of 10k window size.
-bedtools makewindows -g hg38.chrom.size -w 10000 > hg38.10k.bed
-# Normalize reads.
-normalize.sh my_dir
+multi-repliseq.sh $input_dir $input_info $output_dir $output_prefix $bwa_index $threads $window_size $genome_size
 ```
-## In progress
-Using early/late pipeline from DCIC for mapping/counting.
+
